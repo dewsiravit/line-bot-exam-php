@@ -1,7 +1,6 @@
-<?php // callback.php
-
-$strAccessToken = 'cPsIFNhxPdotjiE3asECOxl3kX1WCAhas5IveLwo3jLPG782+o+BWSfrRQ9WKp/oUYjSsX1MTxcpfOgJ2reQ3HGw+34gpCPchE51xfA23yNmJGi+hu2Xw7orzD56NBv+E21yJV6YtC9Soim/AmOpclGUYhWQfeY8sLGRXgo3xvw=
-';
+<?php
+ 
+$strAccessToken = "8XOO0p2GBqlmCXbqQXbWD7h04zjLaS/X3tLjJvnntXmZV4lvVgSWyz2RllKgAp4MUYjSsX1MTxcpfOgJ2reQ3HGw+34gpCPchE51xfA23yM6aTZzKP0z0Xo3NilqiWppVJBwVh0mvT8ujyKQ0UChglGUYhWQfeY8sLGRXgo3xvw=";
  
 $content = file_get_contents('php://input');
 $arrJson = json_decode($content, true);
@@ -45,4 +44,5 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 $result = curl_exec($ch);
 curl_close ($ch);
+ 
 ?>
