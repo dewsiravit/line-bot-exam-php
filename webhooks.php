@@ -1,48 +1,11 @@
 <?php
- 
-$strAccessToken = "8XOO0p2GBqlmCXbqQXbWD7h04zjLaS/X3tLjJvnntXmZV4lvVgSWyz2RllKgAp4MUYjSsX1MTxcpfOgJ2reQ3HGw+34gpCPchE51xfA23yM6aTZzKP0z0Xo3NilqiWppVJBwVh0mvT8ujyKQ0UChglGUYhWQfeY8sLGRXgo3xvw=";
- 
-$content = file_get_contents('php://input');
-$arrJson = json_decode($content, true);
- 
-$strUrl = "https://api.line.me/v2/bot/message/reply";
- 
-$arrHeader = array();
-$arrHeader[] = "Content-Type: application/json";
-$arrHeader[] = "Authorization: Bearer {$strAccessToken}";
- 
-if($arrJson['events'][0]['message']['text'] == "สวัสดี"){
-  $arrPostData = array();
-  $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-  $arrPostData['messages'][0]['type'] = "text";
-  $arrPostData['messages'][0]['text'] = "สวัสดี ID คุณคือ ".$arrJson['events'][0]['source']['userId'];
-}else if($arrJson['events'][0]['message']['text'] == "ชื่ออะไร"){
-  $arrPostData = array();
-  $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-  $arrPostData['messages'][0]['type'] = "text";
-  $arrPostData['messages'][0]['text'] = "ฉันยังไม่มีชื่อนะ";
-}else if($arrJson['events'][0]['message']['text'] == "ทำอะไรได้บ้าง"){
-  $arrPostData = array();
-  $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-  $arrPostData['messages'][0]['type'] = "text";
-  $arrPostData['messages'][0]['text'] = "ฉันทำอะไรไม่ได้เลย คุณต้องสอนฉันอีกเยอะ";
-}else{
-  $arrPostData = array();
-  $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-  $arrPostData['messages'][0]['type'] = "text";
-  $arrPostData['messages'][0]['text'] = "ฉันไม่เข้าใจคำสั่ง";
-}
- 
- 
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL,$strUrl);
-curl_setopt($ch, CURLOPT_HEADER, false);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $arrHeader);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($arrPostData));
-curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-$result = curl_exec($ch);
-curl_close ($ch);
+ $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient('8XOO0p2GBqlmCXbqQXbWD7h04zjLaS/X3tLjJvnntXmZV4lvVgSWyz2RllKgAp4MUYjSsX1MTxcpfOgJ2reQ3HGw+34gpCPchE51xfA23yM6aTZzKP0z0Xo3NilqiWppVJBwVh0mvT8ujyKQ0UChglGUYhWQfeY8sLGRXgo3xvw=
+');
+$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '26604a0a46d202c44f45cabe032ebc8e']);
+
+$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('hello');
+$response = $bot->replyMessage('<replyToken>', $textMessageBuilder);
+
+echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
  
 ?>
